@@ -8,7 +8,7 @@ import PIL.Image
 #------------------------------------------------#
 
 # Set S3_ZOOM_BUCKET to bucket name where zoom files should be stored
-S3_ZOOM_BUCKET = 'zoom-zoom' 
+S3_ZOOM_BUCKET = 'zoom-zoom'
 
 
 #------------------------------------------------#
