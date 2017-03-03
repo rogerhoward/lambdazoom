@@ -1,0 +1,7 @@
+zappa
+requests
+boto3
+Flask
+requests
+simplejson
+Pillow

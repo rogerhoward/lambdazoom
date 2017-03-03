@@ -1,0 +1,17 @@
+{
+    "dev": {
+		"app_function": "server.app", 
+		"s3_bucket": "zappa-muykxb3wp",
+		"timeout_seconds": 300,
+		"memory_size": 1024,
+        "events": [{
+            "function": "convert.to_zoom",
+            "event_source": {
+                  "arn":  "arn:aws:s3:::zoom-source",
+                  "events": [
+                    "s3:ObjectCreated:*"
+                  ]
+               }
+            }],
+    }
+}
