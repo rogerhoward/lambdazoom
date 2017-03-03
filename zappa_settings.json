@@ -4,7 +4,7 @@
 		"s3_bucket": "zappa-muykxb3wp",
 		"timeout_seconds": 300,
 		"memory_size": 1024,
-    "project_name": "Lambda Zoom",
+    "project_name": "Lambda_Zoom",
         "events": [{
             "function": "convert.to_zoom",
             "event_source": {
