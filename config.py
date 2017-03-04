@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 import os, sys
 import PIL.Image
+import config
+
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 #------------------------------------------------#
@@ -36,4 +39,6 @@ DEEPZOOM_IMAGE_QUALITY = 0.8
 #------------------------------------------------#
 
 # Path to a writeable filesystem. Shouldn't need to change this.
-TEMP_DIR = '/tmp/' 
+TEMP_DIR = '/tmp/'
+
+STATIC_ROOT = os.path.join(config.PROJECT_DIR, 'static')

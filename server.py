@@ -26,6 +26,10 @@ def list():
     return flask.jsonify({'keys': keys})
 
 
+@app.route('/static/<path:filepath>')
+def serve_static(filepath):
+    return flask.send_from_directory(config.STATIC_ROOT, filepath)
+
 #------------------------------------------------#
 #  Command line options                          #
 #------------------------------------------------#
