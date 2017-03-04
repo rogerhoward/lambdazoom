@@ -9,6 +9,22 @@ app = flask.Flask(__name__)
 
 
 #------------------------------------------------#
+#  Browser endpoints                             #
+#------------------------------------------------#
+
+@app.route('/browse/')
+@app.route('/browse/<path:path>')
+def browse(path=None):
+    if path:
+        return flask.render_template('zoom.html', path=path)
+    else:
+        s3 = boto3.resource('s3')
+        this_bucket = s3.Bucket(config.S3_ZOOM_BUCKET)
+        zooms = [x.key for x in this_bucket.objects.all() if x.key.endswith('.dzi')]
+
+        return flask.render_template('home.html', zooms=zooms)
+
+#------------------------------------------------#
 # System status endpoints                        #
 #------------------------------------------------#
 
@@ -22,7 +38,7 @@ def list():
 
     this_bucket = s3.Bucket(config.S3_ZOOM_BUCKET)
 
-    keys = [x.key for x in this_bucket.objects.all()]
+    keys = [x.key for x in this_bucket.objects.all() if x.key.endswith('.dzi')]
     return flask.jsonify({'keys': keys})
 
 
@@ -40,3 +56,4 @@ def run():
 
 if __name__ == '__main__':
     run()
+
