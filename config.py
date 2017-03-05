@@ -56,4 +56,4 @@ else:
 # Context dict for passing to templates          #
 #------------------------------------------------#
 
-CONTEXT = {'URL_PREFIX': URL_PREFIX}
+CONTEXT = {'URL_PREFIX': URL_PREFIX, 'S3_ZOOM_BUCKET': S3_ZOOM_BUCKET}
