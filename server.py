@@ -20,7 +20,7 @@ def browse(path=None):
     else:
         s3 = boto3.resource('s3')
         this_bucket = s3.Bucket(config.S3_ZOOM_BUCKET)
-        zooms = [x.key for x in this_bucket.objects.all() if x.key.endswith('.dzi')]
+        zooms = [x.key.replace('.dzi', '') for x in this_bucket.objects.all() if x.key.endswith('.dzi')]
 
         return flask.render_template('home.html', zooms=zooms, context=config.CONTEXT)
 

@@ -51,7 +51,7 @@
             var viewer = OpenSeadragon({
                 id: "zoom",
                 prefixUrl: "{{ context.URL_PREFIX }}/static/openseadragon-2.2.1/images/",
-                tileSources: "https://zoom-zoom.s3-website-us-east-1.amazonaws.com/{{ path }}"
+                tileSources: "//zoom-zoom.s3.amazonaws.com/{{ path }}.dzi"
             });
             console.log('zoom loaded');
         });
