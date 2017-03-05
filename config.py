@@ -42,3 +42,18 @@ DEEPZOOM_IMAGE_QUALITY = 0.8
 TEMP_DIR = '/tmp/'
 
 STATIC_ROOT = os.path.join(config.PROJECT_DIR, 'static')
+
+ENV = dict(os.environ)
+
+if ENV.get('STAGE'):
+    URL_PREFIX = '/{}'.format(ENV.get('STAGE'))
+else:
+    URL_PREFIX = ''
+
+
+
+#------------------------------------------------#
+# Context dict for passing to templates          #
+#------------------------------------------------#
+
+CONTEXT = {'URL_PREFIX': URL_PREFIX}
