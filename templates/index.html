@@ -37,22 +37,52 @@
       </div>
     </nav>
 
-    <div class="container">
+    <div class="container-fluid">
 
         <h1>Welcome to LambdaZoom</h1>
+        
+          <a href="./browse" role="button" class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Browse Deep Zoom images
+          </a>
 
-        <table class="table table-striped table-bordered table-hover table-condensed">
+          <hr>
+
+        <table class="table table-striped table-bordered table-hover table-condensed table-responsive">
             <thead>
                 <tr>
-                    <th>Filename</th>
+                    <th>Key</th>
+                    <th>Value</th>
                 </tr>
             </thead>
             <tbody>
-            {% for zoom in zooms %}
                 <tr>
-                    <td><a href="./{{ zoom }}">{{ zoom }}</a></td>
+                    <td>URL_PREFIX</td>
+                    <td>{{ context.URL_PREFIX }}</td>
                 </tr>
-            {% endfor %}
+                <tr>
+                    <td>S3_ZOOM_BUCKET</td>
+                    <td>{{ context.S3_ZOOM_BUCKET }}</td>
+                </tr>
+                <tr>
+                    <td>ENV</td>
+                    <td>{{ context.ENV }}</td>
+                </tr>
+                <tr>
+                    <td>DEEPZOOM_TILE_SIZE</td>
+                    <td>{{ context.DEEPZOOM_TILE_SIZE }}</td>
+                </tr>
+                <tr>
+                    <td>DEEPZOOM_TILE_FORMAT</td>
+                    <td>{{ context.DEEPZOOM_TILE_FORMAT }}</td>
+                </tr>
+                <tr>
+                    <td>DEEPZOOM_RESIZE_FILTER</td>
+                    <td>{{ context.DEEPZOOM_RESIZE_FILTER }}</td>
+                </tr>
+                <tr>
+                    <td>DEEPZOOM_IMAGE_QUALITY</td>
+                    <td>{{ context.DEEPZOOM_IMAGE_QUALITY }}</td>
+                </tr>
             </tbody>
         </table>
 

@@ -27,7 +27,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">LambdaZoom</a>
+          <a class="navbar-brand" href="{{ context.URL_PREFIX }}/">LambdaZoom</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -50,7 +50,7 @@
             <tbody>
             {% for zoom in zooms %}
                 <tr>
-                    <td><a href="./{{ zoom }}">{{ zoom }}</a></td>
+                    <td><a href="./{{ zoom }}" role="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a> <a href="./{{ zoom }}">{{ zoom }}</a></td>
                 </tr>
             {% endfor %}
             </tbody>
