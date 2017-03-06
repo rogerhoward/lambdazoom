@@ -36,8 +36,22 @@
       </div>
     </nav>
 
-    <div class="" id="zoom-container">
+    <div id="zoom-container">
         <div id="zoom">
+        </div>
+        <div id="sd-buttons">
+          <a id="zoom-in" role="button" class="btn btn-default btn-sm sd-button">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          </a>
+          <a id="zoom-out" role="button" class="btn btn-default btn-sm sd-button">
+            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+          </a>
+          <a id="zoom-home" role="button" class="btn btn-default btn-sm sd-button">
+            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+          </a>
+          <a id="zoom-fullscreen" role="button" class="btn btn-default btn-sm sd-button">
+            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+          </a>
         </div>
     </div>
 
@@ -45,13 +59,19 @@
     <script src="{{ context.URL_PREFIX }}/static/openseadragon-2.2.1/openseadragon.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+
+
     <script>
         $(document).ready(function() {
             console.log('Welcome to zoom');
             var viewer = OpenSeadragon({
                 id: "zoom",
                 prefixUrl: "{{ context.URL_PREFIX }}/static/openseadragon-2.2.1/images/",
-                tileSources: "//{{ context.S3_ZOOM_BUCKET }}.s3.amazonaws.com/{{ path }}.dzi"
+                tileSources: "//{{ context.S3_ZOOM_BUCKET }}.s3.amazonaws.com/{{ path }}.dzi",
+                zoomInButton:   "zoom-in",
+                zoomOutButton:  "zoom-out",
+                homeButton:     "zoom-home",
+                fullPageButton: "zoom-fullscreen",
             });
             console.log('zoom loaded');
         });
