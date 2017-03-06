@@ -15,6 +15,15 @@ Each image is processed independently of another, in parallel, which means wheth
 ### serverless environment
 AWS Lambdas don't depend on being installed on a server (physical or cloud) that must be kept running 24/7, eating your dollars while it may be doing nothing. AWS Lambdas charge you only while they run, giving you a huge degree of flexibility in pricing and true pay-per-use processing, flexibility hard to match with dedicated hardware, or even with auto-provisioned cloud servers.
 
+## Key technologies
+
+LambdaZoom wouldn't be possible without several key technologies:
+
+* [Zappa](http://www.zappa.io) is a Python framework which simplifies the development of Python-based serverless applications.
+* [Flask](http://flask.pocoo.org/) is a - no _the_ - Python microframework.
+* [deepzoom.py](https://github.com/openzoom/deepzoom.py) is a library that handles the conversion of images into DZI tilesets.
+* [Open Seadragon](https://openseadragon.github.io) is an incrediable JavaScript zoom image viewer originally developed by Microsoft.
+
 ## Requirements
 
 1. An AWS account, and [credentials properly configured for boto3](http://boto3.readthedocs.io/en/latest/guide/configuration.html)
@@ -39,14 +48,23 @@ AWS Lambdas don't depend on being installed on a server (physical or cloud) that
 
 ## Deploy
 
-From within the local directory, and with your virtualenv activated, run `zappa deploy dev` if this is the first time you've deployed, or `zappa update dev` if not. Once that finishes, run `zappa schedule dev` and you're done! 
+From within the local directory, and with your virtualenv activated, run `zappa deploy live` if this is the first time you've deployed, or `zappa update live` if not. Once that finishes, run `zappa schedule live` and you're done! 
 
-Anytime you want to redeploy, just run `zappa update dev` and then `zappa schedule dev` from within the repo directory (and always with the virtualenv activated).
+Anytime you want to redeploy, just run `zappa update live` and then `zappa schedule live` from within the repo directory (and always with the virtualenv activated).
 
 ## Test
 
 Just upload an image file into the source bucket you set in `zappa_settings.json`. Give it a few seconds, then check the destination bucket you set in `S3_ZOOM_BUCKET`. Voila!
 
+## Browse
+
+After you deploy, the application will print out the base URL of the Web interface, something like:
+
+```
+Your updated Zappa deployment is live!: https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/live
+```
+
+Keep that URL private, and visit it for a basic Web UI for monitoring the service, testing zoom functionality, etc.
 
 ## Problems?
 
