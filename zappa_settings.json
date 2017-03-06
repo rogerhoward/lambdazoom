@@ -1,7 +1,7 @@
 {
-    "dev": {
+    "live": {
 		"app_function": "server.app", 
-		"s3_bucket": "zappa-muykxb3wp",
+		"s3_bucket": "zoom-config",
 		"timeout_seconds": 300,
 		"memory_size": 1024,
     "project_name": "Lambda_Zoom",
@@ -16,3 +16,4 @@
             }],
     }
 }
+

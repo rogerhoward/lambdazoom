@@ -4,17 +4,28 @@ import flask
 import boto3
 import config
 
-
 app = flask.Flask(__name__)
 
 
 #------------------------------------------------#
-#  Browser endpoints                             #
+#  UI endpoints                                  #
 #------------------------------------------------#
+
+@app.route('/')
+def index(path=None):
+    """
+    UI homepage.
+    """
+    return flask.render_template('index.html', context=config.CONTEXT)
+
 
 @app.route('/browse/')
 @app.route('/browse/<path:path>')
 def browse(path=None):
+    """
+    Dual routes which support browsing a list of zoomable images on your S3 bucket,
+    and viewing each one in an Open Seadragon viewer.
+    """
     if path:
         return flask.render_template('zoom.html', path=path, context=config.CONTEXT)
     else:
@@ -24,8 +35,9 @@ def browse(path=None):
 
         return flask.render_template('home.html', zooms=zooms, context=config.CONTEXT)
 
+
 #------------------------------------------------#
-# System status endpoints                        #
+# REST endpoints                                 #
 #------------------------------------------------#
 
 @app.route('/list/')
@@ -42,21 +54,25 @@ def list():
     return flask.jsonify({'keys': keys})
 
 
-@app.route('/static/<path:filepath>')
-def serve_static(filepath):
-    return flask.send_from_directory(config.STATIC_ROOT, filepath)
-
-
 @app.route('/info/')
 def info():
     """
-    Simple route which lists all the objects in S3_ZOOM_BUCKET
-    Handy for confirming that uploads are working.
+    Route which returns all environment variables as a JSON object.
     """
+    return flask.jsonify({'env': dict(os.environ)})
 
-    ENV = dict(os.environ)
 
-    return flask.jsonify({'env': ENV})
+#------------------------------------------------#
+# Supporting endpoints                           #
+#------------------------------------------------#
+
+@app.route('/static/<path:filepath>')
+    """
+    Route for serving static assets directly, rather than using S3.
+    Used for CSS, JS and other assets needed for the application.
+    """
+def serve_static(filepath):
+    return flask.send_from_directory(config.STATIC_ROOT, filepath)
 
 
 #------------------------------------------------#
