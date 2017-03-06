@@ -39,7 +39,6 @@ def to_zoom(event, context):
                        image_quality=config.DEEPZOOM_IMAGE_QUALITY,
                        resize_filter=config.DEEPZOOM_RESIZE_FILTER)
     creator.create(local_file, dzi_file)  # Convert object to tileset using Deepzoom library
-    s3.upload_file(dzi_file, config.S3_ZOOM_BUCKET, dzi_key)  # Upload DZI file
 
     for directory, directories, files in os.walk(tile_dir, topdown=False):  # Loop through tile_dir and upload all tiles
         for name in files:
@@ -54,5 +53,14 @@ def to_zoom(event, context):
                     retry = False
                 except:
                     pass
+
+    retry = True
+    while retry:
+        try:
+            s3.upload_file(dzi_file, config.S3_ZOOM_BUCKET, dzi_key)  # Upload DZI file
+            retry = False
+        except:
+            pass
+    
 
     shutil.rmtree(tile_dir, ignore_errors=True)  # Delete tile_dir before quitting

@@ -1,0 +1,34 @@
+body {
+	margin-top: 40px;
+}
+
+#zoom {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+#zoom-container {
+	position: fixed;
+	top: 60px;
+	left: 10px;
+	right: 10px;
+	bottom: 10px;
+	background-color: #dedede;
+}
+
+#sd-buttons {
+	left: 0px;
+	bottom: 0px;
+	padding: 10px;
+	background-color: #dedede;
+	position: absolute;
+	display: block;
+}
+
+
+.sd-button {
+	top: 0px;
+}

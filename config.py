@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 import os, sys
 import PIL.Image
+import config
+
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 #------------------------------------------------#
@@ -36,4 +39,25 @@ DEEPZOOM_IMAGE_QUALITY = 0.8
 #------------------------------------------------#
 
 # Path to a writeable filesystem. Shouldn't need to change this.
-TEMP_DIR = '/tmp/' 
+TEMP_DIR = '/tmp/'
+
+STATIC_ROOT = os.path.join(config.PROJECT_DIR, 'static')
+
+ENV = dict(os.environ)
+
+if ENV.get('STAGE'):
+    URL_PREFIX = '/{}'.format(ENV.get('STAGE'))
+else:
+    URL_PREFIX = ''
+
+
+#------------------------------------------------#
+# Context dict for passing to templates          #
+#------------------------------------------------#
+
+CONTEXT = {'URL_PREFIX': URL_PREFIX, 'S3_ZOOM_BUCKET': S3_ZOOM_BUCKET, 'ENV': ENV}
+
+CONTEXT['DEEPZOOM_TILE_SIZE'] = DEEPZOOM_TILE_SIZE
+CONTEXT['DEEPZOOM_TILE_FORMAT'] = DEEPZOOM_TILE_FORMAT
+CONTEXT['DEEPZOOM_RESIZE_FILTER'] = DEEPZOOM_RESIZE_FILTER
+CONTEXT['DEEPZOOM_IMAGE_QUALITY'] = DEEPZOOM_IMAGE_QUALITY
