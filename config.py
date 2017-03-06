@@ -52,8 +52,19 @@ else:
 
 
 #------------------------------------------------#
+# Sanitize ENV                                   #
+#------------------------------------------------#
+
+if 'AWS_SECURITY_TOKEN' in ENV:
+    del ENV['AWS_SECURITY_TOKEN']
+if 'AWS_SECRET_ACCESS_KEY' in ENV:
+    del ENV['AWS_SECRET_ACCESS_KEY']
+
+
+#------------------------------------------------#
 # Context dict for passing to templates          #
 #------------------------------------------------#
+
 
 CONTEXT = {'URL_PREFIX': URL_PREFIX, 'S3_ZOOM_BUCKET': S3_ZOOM_BUCKET, 'ENV': ENV}
 
