@@ -15,6 +15,15 @@ Each image is processed independently of another, in parallel, which means wheth
 ### serverless environment
 AWS Lambdas don't depend on being installed on a server (physical or cloud) that must be kept running 24/7, eating your dollars while it may be doing nothing. AWS Lambdas charge you only while they run, giving you a huge degree of flexibility in pricing and true pay-per-use processing, flexibility hard to match with dedicated hardware, or even with auto-provisioned cloud servers.
 
+## What it does
+
+For each image file uploaded to an S3 bucket of your choice, LambdaZoom will do two things:
+
+1. Convert the uploaded image to a DeepZoom tileset and save the tiles and .dzi file to another S3 bucket
+2. Automatically extract all available metadata from the uploaded image and save it in a JSON file in another S3 bucket
+
+These two steps are done in a way that is entirely automatic, cheap, and will effortlessly scale out to support as much work as you can throw at it.
+
 ## Key technologies
 
 LambdaZoom wouldn't be possible without several key technologies:
@@ -23,6 +32,7 @@ LambdaZoom wouldn't be possible without several key technologies:
 * [Flask](http://flask.pocoo.org/) is a - no _the_ - Python microframework.
 * [deepzoom.py](https://github.com/openzoom/deepzoom.py) is a library that handles the conversion of images into DZI tilesets.
 * [Open Seadragon](https://openseadragon.github.io) is an incrediable JavaScript zoom image viewer originally developed by Microsoft.
+* [Exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/) is the most powerful tool for extracting and embedding metadata in a huge range of image, document and other file formats.
 
 ## Requirements
 
