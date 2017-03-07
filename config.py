@@ -35,6 +35,14 @@ DEEPZOOM_IMAGE_QUALITY = 0.8
 
 
 #------------------------------------------------#
+# Metadata settings                              #
+#------------------------------------------------#
+
+EXTRACT_METADATA = True
+EXIFTOOL_PATH = os.path.join(PROJECT_DIR, 'bin/exiftool')
+
+
+#------------------------------------------------#
 # Misc settings.                                 #
 #------------------------------------------------#
 

@@ -2,10 +2,20 @@
 import os, sys
 import boto3
 import config
+import convert
 from deepzoom import ImageCreator
 import shutil
+import simplejson as json
+import subprocess
 
 s3 = boto3.client('s3')
+
+
+def metadata_to_json(image_file, json_file):
+    exiftool_output = json.loads(subprocess.check_output([config.EXIFTOOL_PATH, '-m', '-G', '-struct', '-s', '-s', '-g', '-json', image_file]))[0]
+    with open(json_file, 'w') as open_json_file:
+        open_json_file.write(json.dumps(exiftool_output, sort_keys=True, indent=2 * ' '))
+    return exiftool_output
 
 
 def to_zoom(event, context):
@@ -21,6 +31,7 @@ def to_zoom(event, context):
     base_key = '.'.join(key.split('.')[:-1])  # Object filename without its extension
     extension = key.split('.')[-1].lower()  # File extension of object
     dzi_key = base_key + '.dzi'  # Key of DZI to be created
+    json_key = base_key + '.json'  # Key of DZI to be created
 
     if extension not in config.ALLOWED_EXTENSIONS:  # Abort early due to unsupported file extension
         print('extension {} not allowed'.format(extension))
@@ -29,7 +40,8 @@ def to_zoom(event, context):
     local_file = os.path.join(config.TEMP_DIR, key)  # Local file where object is stored
     dzi_file = os.path.join(config.TEMP_DIR, dzi_key)  # Local file where new DZI will be stored
     tile_dir = os.path.join(config.TEMP_DIR, base_key + '_files')  # Local directory where tiles will be stored
-    dzi_key = os.path.relpath(dzi_file, config.TEMP_DIR)  # Relative path to DZI, used as key when uploaded
+    json_file = os.path.join(config.TEMP_DIR, json_key)  # Local file where new DZI will be stored
+    # dzi_key = os.path.relpath(dzi_file, config.TEMP_DIR)  # Relative path to DZI, used as key when uploaded
 
     print(bucket, key, local_file, dzi_key)
 
@@ -53,6 +65,18 @@ def to_zoom(event, context):
                     retry = False
                 except:
                     pass
+
+    if config.EXTRACT_METADATA:
+        convert.metadata_to_json(local_file, json_file)
+        retry = True
+        while retry:
+            try:
+                s3.upload_file(json_file, config.S3_ZOOM_BUCKET, json_key)  # Upload JSON file
+                retry = False
+            except:
+                pass
+
+
 
     retry = True
     while retry:
