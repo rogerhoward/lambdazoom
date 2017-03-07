@@ -2,7 +2,6 @@
 import os, sys
 import boto3
 import config
-import convert
 from deepzoom import ImageCreator
 import shutil
 import simplejson as json
@@ -12,10 +11,13 @@ s3 = boto3.client('s3')
 
 
 def metadata_to_json(image_file, json_file):
-    exiftool_output = json.loads(subprocess.check_output([config.EXIFTOOL_PATH, '-m', '-G', '-struct', '-s', '-s', '-g', '-json', image_file]))[0]
-    with open(json_file, 'w') as open_json_file:
-        open_json_file.write(json.dumps(exiftool_output, sort_keys=True, indent=2 * ' '))
-    return exiftool_output
+    try:
+        exiftool_output = json.loads(subprocess.check_output([config.EXIFTOOL_PATH, '-m', '-G', '-struct', '-s', '-s', '-g', '-json', image_file]))[0]
+        with open(json_file, 'w') as open_json_file:
+            open_json_file.write(json.dumps(exiftool_output, sort_keys=True, indent=2 * ' '))
+        return exiftool_output
+    except:
+        return None
 
 
 def to_zoom(event, context):
@@ -67,14 +69,15 @@ def to_zoom(event, context):
                     pass
 
     if config.EXTRACT_METADATA:
-        convert.metadata_to_json(local_file, json_file)
-        retry = True
-        while retry:
-            try:
-                s3.upload_file(json_file, config.S3_ZOOM_BUCKET, json_key)  # Upload JSON file
-                retry = False
-            except:
-                pass
+        metadata_success = metadata_to_json(local_file, json_file)
+        if metadata_success:
+            retry = True
+            while retry:
+                try:
+                    s3.upload_file(json_file, config.S3_ZOOM_BUCKET, json_key)  # Upload JSON file
+                    retry = False
+                except:
+                    pass
 
 
 
