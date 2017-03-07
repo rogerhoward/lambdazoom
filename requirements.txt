@@ -5,3 +5,4 @@ Flask
 requests
 simplejson
 Pillow
+simplejson
